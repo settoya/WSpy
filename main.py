@@ -12,7 +12,7 @@ headers = {
 page = requests.get(url, headers=headers)
 file = open('js-table-data.csv', 'w')
 writer = csv.writer(file)
-writer.writerow(['itemname'])
+writer.writerow(['itemname', 'itemprice'])
 data = page.json()
 # all_arrays = data['counts']
 # print(len(all_arrays))
@@ -48,7 +48,7 @@ def make_request(url, header):
         if sublist['currency'] == "cur_berry"  # Filter sublists based on conditions
     ]
     mini = min(selected_elements)
-    print(mini)
+    writer.writerow(mini)
 
 
 threads = []
