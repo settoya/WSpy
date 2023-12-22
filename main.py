@@ -1,6 +1,9 @@
 import requests
 import csv
-import threading
+from threading import Thread
+import time
+
+start = time.time()
 
 url = 'https://pixels-server.pixels.xyz/v1/marketplace/listings/count'
 headers = {
@@ -14,19 +17,6 @@ data = page.json()
 # all_arrays = data['counts']
 # print(len(all_arrays))
 # print(data['counts'])
-
-
-def make_request(url):
-    response = requests.get(url)
-    data1 = response.json()
-    selected_elements = [
-        [sublist['itemId'], sublist['price']]  # Select first and last elements
-        for sublist in data1['listings']
-        if sublist['currency'] == "cur_berry"  # Filter sublists based on conditions
-    ]
-    mini = min(selected_elements)
-    print(mini)
-
 
 rawRecipe = [
 'itm_clover4LeafFruit', 'itm_4_leaf_cloveregano', 'itm_storageChest6Slot', 'itm_archery', 'itm_Space_Chair', 'itm_tentacactus',
@@ -48,18 +38,36 @@ rawRecipe = [
 'itm_void', 'itm_waterland_statue', 'itm_wintermintFruit', 'itm_wintermint_whiskey', 'itm_beeswax',
 'itm_Wooden_Stool', 'itm_Wooden_Throne', 'itm_woodenbeam']
 
-urlOfEachItem = []
-for subUrl in rawRecipe:
-    urlEach = 'https://pixels-server.pixels.xyz/v1/marketplace/item/' + subUrl
-    urlOfEachItem.append(urlEach)
+
+def make_request(url, header):
+    response = requests.get(url)
+    data1 = response.json()
+    selected_elements = [
+        [sublist['itemId'], sublist['price']]  # Select first and last elements
+        for sublist in data1['listings']
+        if sublist['currency'] == "cur_berry"  # Filter sublists based on conditions
+    ]
+    mini = min(selected_elements)
+    print(mini)
+
 
 threads = []
 
-for url in urlOfEachItem:
-    thread = threading.Thread(target=make_request, args=(url,))
-    threads.append(thread)
-    thread.start()
 
-# Wait for all threads to complete
+for listitem in rawRecipe:
+    modList = str(listitem).replace('[', '').replace(']', '').replace("'", '')
+    # print(listItem)
+    urlItem = 'https://pixels-server.pixels.xyz/v1/marketplace/item/' + modList
+    app = Thread(target=make_request, args=(urlItem, headers))
+    app.daemon = False
+    threads.append(app)
+    app.start()
+
+
 for thread in threads:
     thread.join()
+
+end = time.time()
+
+time_ended = int(end - start)
+print(time_ended)
