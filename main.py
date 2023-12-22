@@ -36,7 +36,13 @@ rawRecipe = [
 'itm_tangy_bbq_sauce', 'itm_traditional_bbq_sauce', 'itm_Trashcan', 'itm_Small_Fountain_03',
 'itm_turquoise_Couch',
 'itm_void', 'itm_waterland_statue', 'itm_wintermintFruit', 'itm_wintermint_whiskey', 'itm_beeswax',
-'itm_Wooden_Stool', 'itm_Wooden_Throne', 'itm_woodenbeam']
+'itm_Wooden_Stool', 'itm_Wooden_Throne', 'itm_woodenbeam',
+'itm_dry_baby_back_butterberry_ribs', 'itm_dry_honey_kissed_popberry_chops', 'itm_dry_maple_glazed_grumpkin_slabs',
+'itm_dry_pulled_muckchuck_platter', 'itm_dry_salt_encrusted_scarrot_skewers', 'itm_moist_broiled_muckchuck_burgers',
+'itm_moist_honey_kissed_grumpkin_chops', 'itm_moist_maple_glazed_scarrot_slabs', 'itm_moist_salt_encrusted_popberry_skewers',
+'itm_moist_scarrot_butterberry_kebabs', 'itm_starry_butterberry_brisket', 'itm_starry_grilled_hotato_kielbasa',
+'itm_starry_honey_kissed_scarrot_chops', 'itm_starry_maple_glazed_popberry_slabs', 'itm_starry_salt_encrusted_grumpkin_skewers'
+]
 
 
 def make_request(url, header):
