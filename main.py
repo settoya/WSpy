@@ -10,7 +10,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
 }
 page = requests.get(url, headers=headers)
-file = open('js-table-data.csv', 'w')
+file = open('js-table-data.csv', 'w',  newline='', encoding='utf-8')
 writer = csv.writer(file)
 writer.writerow(['itemname', 'itemprice'])
 data = page.json()
