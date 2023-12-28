@@ -1,7 +1,8 @@
 import requests
-import csv
+# import csv
 from threading import Thread
 import time
+import pyperclip
 
 start = time.time()
 
@@ -10,16 +11,16 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
 }
 page = requests.get(url, headers=headers)
-file = open('js-table-data.csv', 'w',  newline='', encoding='utf-8')
-writer = csv.writer(file)
-writer.writerow(['itemname', 'itemprice'])
+# file = open('js-table-data.csv', 'w',  newline='', encoding='utf-8')
+# writer = csv.writer(file)
+# writer.writerow(['itemname', 'itemprice'])
 data = page.json()
 # all_arrays = data['counts']
 # print(len(all_arrays))
 # print(data['counts'])
 
 rawRecipe = [
-'itm_clover4LeafFruit', 'itm_4_leaf_cloveregano', 'itm_storageChest6Slot', 'itm_archery', 'itm_Space_Chair', 'itm_tentacactus',
+'itm_clover4LeafFruit', 'itm_4_leaf_cloveregano', 'itm_storageChest6Slot', 'itm_archery', 'itm_Space_Chair', 'itm_tenta',
 'itm_tentacactus_tequila', 'itm_barn', 'itm_barrel01', 'itm_barrel02', 'itm_barrel03', 'itm_Bomb_Shell', 'itm_bones_hut_2',
 'itm_brick', 'itm_butterberry', 'itm_butterberry_butterbrew', 'itm_clay', 'itm_Plastic', 'itm_cloverFruit', 'itm_cunstruction_cone',
 'itm_constructionPowder', 'itm_cottoncandyshake', 'itm_egg', 'itm_eggsplosive', 'itm_barrel04', 'itm_Fireplace',
@@ -45,6 +46,8 @@ rawRecipe = [
 ]
 
 
+genlist = []
+
 def make_request(url, header):
     response = requests.get(url)
     data1 = response.json()
@@ -54,7 +57,7 @@ def make_request(url, header):
         if sublist['currency'] == "cur_berry"  # Filter sublists based on conditions
     ]
     mini = min(selected_elements)
-    writer.writerow(mini)
+    genlist.append(mini)
 
 
 threads = []
@@ -67,13 +70,19 @@ for listitem in rawRecipe:
     app = Thread(target=make_request, args=(urlItem, headers))
     app.daemon = False
     threads.append(app)
+
     app.start()
 
 
 for thread in threads:
     thread.join()
 
+list_as_string = '\n'.join(str(item).replace(']', '').replace('[', '').replace("'", '') for item in genlist)
+pyperclip.copy(list_as_string)
+
 end = time.time()
 
 time_ended = int(end - start)
 print(time_ended)
+
+
